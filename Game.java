@@ -16,31 +16,25 @@ import java.util.HashSet;
 
 public class Game {
     char[][] scrabbleBoard;
-    int numberOfPlayers;
-    HashMap tileBag;
-    HashSet dict;
+    HashMap<Character, Integer> tileBag;
+    HashMap<Character, Integer> tileScore;
+    HashSet<String> dict;
 
     public Game() {
         this.scrabbleBoard = new char[15][15];
-        this.tileBag = new HashMap<Character, Integer>();
         this.dict = new HashSet<String>();
-
         this.initTileBag();
-        System.out.println("tile bag init done\n");
-        try {   this.initDict();    }
+        this.initTileScore();
+
+        try { this.initDict(); }
         catch (FileNotFoundException e) {
             System.err.println("FileNotFoundExpectation: "+ e);
         }
     }
 
-    //Initializes the scrabble board
-    private void initBoard() {
-        //new char array is already initialized
-
-    }
-
     //Tile bag initialization and distribution
     //Values taken from : 'thesprucecrafts.com/scrabble-tile-distribution-and-point-values-412402'
+    // TODO: Find a way to read these values from the file
     private void initTileBag() {
         if (this.tileBag.isEmpty()) {
             this.tileBag.put('A', 9);
@@ -71,21 +65,49 @@ public class Game {
             this.tileBag.put('Z', 1);
         }
     }
+    //Initializes tile scores in another hashmap
+    // TODO: Find a way to read these values from the file
+    public void initTileScore() {
+        if (this.tileScore.isEmpty()) {
+            this.tileScore.put('A', 1);
+            this.tileScore.put('B', 3);
+            this.tileScore.put('C', 3);
+            this.tileScore.put('D', 2);
+            this.tileScore.put('E', 1);
+            this.tileScore.put('F', 2);
+            this.tileScore.put('G', 2);
+            this.tileScore.put('H', 4);
+            this.tileScore.put('I', 1);
+            this.tileScore.put('J', 8);
+            this.tileScore.put('K', 5);
+            this.tileScore.put('L', 1);
+            this.tileScore.put('M', 3);
+            this.tileScore.put('N', 1);
+            this.tileScore.put('O', 1);
+            this.tileScore.put('P', 3);
+            this.tileScore.put('Q', 10);
+            this.tileScore.put('R', 1);
+            this.tileScore.put('S', 1);
+            this.tileScore.put('T', 1);
+            this.tileScore.put('U', 1);
+            this.tileScore.put('V', 4);
+            this.tileScore.put('W', 4);
+            this.tileScore.put('X', 8);
+            this.tileScore.put('Y', 4);
+            this.tileScore.put('Z', 10);        }
+    }
 
     //Initializes the dictionary - text file from 'https://github.com/redbo/scrabble/blob/master/dictionary.txt'
     private void initDict() throws FileNotFoundException {
-        System.out.println("entered initDict()");
         BufferedReader dictReader = new BufferedReader(new FileReader(("words.txt")));
         try {
             String line = dictReader.readLine();
-            System.out.println("first line : "+ line);
 
             //add all words from words.txt to hashset
             while (line != null) {
                 dict.add(line);
                 line = dictReader.readLine();
             }
-            System.out.println("done reading entire file");
         } catch (IOException e) {
             System.err.println("IOException : "+ e);
             e.printStackTrace();
@@ -94,9 +116,45 @@ public class Game {
     }
     /*
     @param word input to be validated
-    @return boolean if word is valid
+    @return     boolean if word is valid
     */
     public boolean validateWord(String word) {
         return this.dict.contains(word);
+    }
+    /*
+    @param C    tile to be scored
+    @return     score for a tile
+    */
+    private int getTileScore(Character C) {
+        if (this.tileScore.containsKey(C)) {
+            return (int) this.tileScore.get(C);
+        }
+        return -1;
+    }
+    /*
+    used when game starts and after each move
+    @param C    tile to be removed
+    @return     removed successfully
+    */
+    public boolean removeTileFromBag(Character C) {
+        if (this.tileBag.containsKey(C)) {
+            int newValue = this.tileBag.get(C) - 1;
+            this.tileBag.put(C, newValue);
+            return true;
+        }
+        return false;
+    }
+    /*
+    used when players give up their turns
+    @param C    tile added back to bag
+    @return     added successfully
+    */
+    public boolean addTileToBag(Character C) {
+        if (this.tileBag.containsKey(C)) {
+            int newValue = this.tileBag.get(C) + 1;
+            this.tileBag.put(C, newValue);
+            return true;
+        }
+        return false;
     }
 }

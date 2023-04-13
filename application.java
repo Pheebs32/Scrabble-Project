@@ -27,5 +27,7 @@ public class application {
         System.out.println(game.validateWord("PILOT"));
         System.out.println(game.validateWord("DDEINUBIUYISVY"));
 
+        //System.out.println('Hello score: " + game.calculateWordScore("HELLO"));
+
     }
 }
