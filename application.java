@@ -17,5 +17,15 @@ public class application {
             //create an array to store players?
             //call player class
         }
+
+        //test methods for Game class
+        System.out.println("begin board initialization");
+        Game game = new Game(2);
+        System.out.println("board initialization complete");
+
+        game.validateWord("HELLO");
+        game.validateWord("PILOT");
+        game.validateWord("DDEINUBIUYISVY");
+
     }
 }
