@@ -20,12 +20,13 @@ public class Game {
     HashMap tileBag;
     HashSet dict;
 
-    public Game(int numberOfPlayers) {
+    public Game() {
         this.scrabbleBoard = new char[15][15];
         this.tileBag = new HashMap<Character, Integer>();
         this.dict = new HashSet<String>();
 
         this.initTileBag();
+        System.out.println("tile bag init done\n");
         try {   this.initDict();    }
         catch (FileNotFoundException e) {
             System.err.println("FileNotFoundExpectation: "+ e);
@@ -71,22 +72,30 @@ public class Game {
         }
     }
 
-    //Initializes the dictionary
+    //Initializes the dictionary - text file from 'https://github.com/redbo/scrabble/blob/master/dictionary.txt'
     private void initDict() throws FileNotFoundException {
+        System.out.println("entered initDict()");
         BufferedReader dictReader = new BufferedReader(new FileReader(("words.txt")));
         try {
             String line = dictReader.readLine();
+            System.out.println("first line : "+ line);
 
-            //add all words from web2 to hashset
+            //add all words from words.txt to hashset
             while (line != null) {
                 dict.add(line);
+                line = dictReader.readLine();
             }
+            System.out.println("done reading entire file");
         } catch (IOException e) {
             System.err.println("IOException : "+ e);
             e.printStackTrace();
         }
 
     }
+    /*
+    @param word input to be validated
+    @return boolean if word is valid
+    */
     public boolean validateWord(String word) {
         return this.dict.contains(word);
     }

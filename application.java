@@ -8,24 +8,24 @@ public class application {
         System.out.println(" ");
 
         //Loop to create players
-        for (int i = 0; i < 2; i++) {
-
-            System.out.println("Enter the name of player "+ (i + 1) +" : ");
-            String playerName = scanner.next();
-            System.out.println(playerName);
-
-            //create an array to store players?
-            //call player class
-        }
+//        for (int i = 0; i < 2; i++) {
+//
+//            System.out.println("Enter the name of player "+ (i + 1) +" : ");
+//            String playerName = scanner.next();
+//            System.out.println(playerName);
+//
+//            //create an array to store players?
+//            //call player class
+//        }
 
         //test methods for Game class
         System.out.println("begin board initialization");
-        Game game = new Game(2);
+        Game game = new Game();
         System.out.println("board initialization complete");
 
-        game.validateWord("HELLO");
-        game.validateWord("PILOT");
-        game.validateWord("DDEINUBIUYISVY");
+        System.out.println(game.validateWord("HELLO"));
+        System.out.println(game.validateWord("PILOT"));
+        System.out.println(game.validateWord("DDEINUBIUYISVY"));
 
     }
 }
