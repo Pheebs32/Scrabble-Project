@@ -139,7 +139,7 @@ public class Game {
     @return     removed successfully
     */
     public boolean removeTileFromBag(Character C) {
-        if (this.tileBag.containsKey(C)) {
+        if (this.tileBag.containsKey(C) && this.tileBag.get(C) > 0) {
             int newValue = this.tileBag.get(C) - 1;
             this.tileBag.put(C, newValue);
             return true;

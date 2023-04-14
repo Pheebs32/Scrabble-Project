@@ -62,7 +62,7 @@ public class application {
 
             }
         }
-        System.out.println(one.getName() +", your tiles are ["+lettersTray[0]+"_"+lettersTray[1]+"_"+lettersTray[2]+"_"+lettersTray[3]+"_"+lettersTray[4]+"_"+lettersTray[5]+"_"+lettersTray[6]+"]");
+        //System.out.println(one.getName() +", your tiles are ["+lettersTray[0]+"_"+lettersTray[1]+"_"+lettersTray[2]+"_"+lettersTray[3]+"_"+lettersTray[4]+"_"+lettersTray[5]+"_"+lettersTray[6]+"]");
         //doesn't work yet
         one.setLetters(lettersTray);
         System.out.println(lettersTray);
