@@ -36,6 +36,7 @@ public class Game {
     //Values taken from : 'thesprucecrafts.com/scrabble-tile-distribution-and-point-values-412402'
     // TODO: Find a way to read these values from the file
     private void initTileBag() {
+        this.tileBag = new HashMap<Character, Integer>();
         if (this.tileBag.isEmpty()) {
             this.tileBag.put('A', 9);
             this.tileBag.put('B', 2);
@@ -68,6 +69,7 @@ public class Game {
     //Initializes tile scores in another hashmap
     // TODO: Find a way to read these values from the file
     public void initTileScore() {
+        this.tileScore = new HashMap<Character, Integer>();
         if (this.tileScore.isEmpty()) {
             this.tileScore.put('A', 1);
             this.tileScore.put('B', 3);
