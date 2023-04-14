@@ -32,32 +32,41 @@ public class application {
 
         //build logic so it loops though the different players turns
         //get random set of 7 letters from all available tiles
-        String[] letterBunch = new String[7];
-        letterBunch[0] = "A";
-        letterBunch[1] = "C";
-        letterBunch[2] = "W";
-        letterBunch[3] = "I";
-        letterBunch[4] = "P";
-        letterBunch[5] = "Q";
-        letterBunch[6] = "M";
-        System.out.println(one.getName() +", your tiles are ["+letterBunch[0]+"_"+letterBunch[1]+"_"+letterBunch[2]+"_"+letterBunch[3]+"_"+letterBunch[4]+"_"+letterBunch[5]+"_"+letterBunch[6]+"]");
-        // TODO: get 7 letter tiles
+        String[] lettersTray = new String[7];
+        lettersTray[0] = "A";
+        lettersTray[1] = "C";
+//        lettersTray[2] = "W";
+        lettersTray[3] = "I";
+//        lettersTray[4] = "P";
+        lettersTray[5] = "Q";
+        lettersTray[6] = "M";
+        System.out.println(one.getName() +", your tiles are ["+lettersTray[0]+"_"+lettersTray[1]+"_"+lettersTray[2]+"_"+lettersTray[3]+"_"+lettersTray[4]+"_"+lettersTray[5]+"_"+lettersTray[6]+"]");
         //shown tiles should be on board
         //check amount of tiles in tray - refill if below 7
-        Random random = new Random();
-        Object[] letters = game.tileBag.keySet().toArray();
-        Object randomLetter = letters[random.nextInt(letters.length)];
+        int lettersMissing = 0;
+        for (int i = 0; i <lettersTray.length; i++) {
+            if (lettersTray[i] == null) {
+                Random random = new Random();
+                Object[] letters = game.tileBag.keySet().toArray();
+                Object randomLetter = letters[random.nextInt(letters.length)];
 
-        if (game.tileBag.get(randomLetter) == 0) {
-            //pick another letter
-        } else {
-            Object numberOfThatLetter = game.tileBag.get(randomLetter);
-            int newValue = game.tileBag.get(randomLetter) - 1;
-            game.tileBag.put((Character) randomLetter, newValue);
+                if (game.tileBag.get(randomLetter) == 0) {
+                    //pick another letter
+                } else {
+                    Object numberOfThatLetter = game.tileBag.get(randomLetter);
+                    int newValue = game.tileBag.get(randomLetter) - 1;
+                    game.tileBag.put((Character) randomLetter, newValue);
 
-            System.out.println(randomLetter);
+                    System.out.println(randomLetter);
+                }
+
+            }
         }
-        one.setLetters(letterBunch);
+        System.out.println(one.getName() +", your tiles are ["+lettersTray[0]+"_"+lettersTray[1]+"_"+lettersTray[2]+"_"+lettersTray[3]+"_"+lettersTray[4]+"_"+lettersTray[5]+"_"+lettersTray[6]+"]");
+        //doesn't work yet
+        one.setLetters(lettersTray);
+        System.out.println(lettersTray);
+        System.out.println(one.getLetters());
         //loops through the players turns -- TODO
         System.out.println(one.getName() +", type a word to start with.");
         String theWord = scanner.next();
