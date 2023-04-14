@@ -121,7 +121,7 @@ public class Game {
     @return     boolean if word is valid
     */
     public boolean validateWord(String word) {
-        return this.dict.contains(word);
+        return this.dict.contains(word.toUpperCase());
     }
     /*
     @param C    tile to be scored
