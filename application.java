@@ -33,9 +33,20 @@ public class application {
         //build logic so it loops though the different players turns
         //get random set of 7 letters from all available tiles
         String[] letterBunch = new String[7];
+        letterBunch[0] = "a";
+        letterBunch[1] = "c";
+        letterBunch[2] = "w";
+        letterBunch[3] = "i";
+        letterBunch[4] = "p";
+        letterBunch[5] = "q";
+        letterBunch[6] = "m";
+        System.out.println(one.getName() +", your tiles are ["+letterBunch[0]+"_"+letterBunch[1]+"_"+letterBunch[2]+"_"+letterBunch[3]+"_"+letterBunch[4]+"_"+letterBunch[5]+"_"+letterBunch[6]+"]");
         // TODO: get 7 letter tiles
+        //shown tiles should be on board
+        //check amount of tiles in tray - refill if below 7
         Random random = new Random();
         one.setLetters(letterBunch);
+        //remember to remove tiles from tileBag
 
         //loops through the players turns -- TODO
         System.out.println(one.getName() +", type a word to start with.");
