@@ -88,7 +88,50 @@ public class Game {
         boardScores.put("1111", "2W");
         boardScores.put("1212", "2W");
         boardScores.put("1313", "2W");
-        // TODO: complete adding board scores
+
+        // TRIPLE WORD BUFF
+        boardScores.put("51", "3W");
+        boardScores.put("91", "3W");
+        boardScores.put("15", "3W");
+        boardScores.put("55", "3W");
+        boardScores.put("95", "3W");
+        boardScores.put("135", "3W");
+        boardScores.put("19", "3W");
+        boardScores.put("59", "3W");
+        boardScores.put("99", "3W");
+        boardScores.put("139", "3W");
+        boardScores.put("513", "3W");
+        boardScores.put("913", "3W");
+
+        // DOUBLE WORD BUFF
+        boardScores.put("30", "2W");
+        boardScores.put("110", "2W");
+        boardScores.put("62", "2W");
+        boardScores.put("82", "2W");
+        boardScores.put("03", "2W");
+        boardScores.put("73", "2W");
+        boardScores.put("143", "2W");
+        boardScores.put("26", "2W");
+        boardScores.put("66", "2W");
+        boardScores.put("86", "2W");
+        boardScores.put("126", "2W");
+        boardScores.put("37", "2W");
+        boardScores.put("117", "2W");
+        boardScores.put("28", "2W");
+        boardScores.put("68", "2W");
+        boardScores.put("88", "2W");
+        boardScores.put("128", "2W");
+        boardScores.put("011", "2W");
+        boardScores.put("711", "2W");
+        boardScores.put("1411", "2W");
+        boardScores.put("612", "2W");
+        boardScores.put("812", "2W");
+        boardScores.put("314", "2W");
+        boardScores.put("1114", "2W");
+
+
+
+
     }
 
     /*
