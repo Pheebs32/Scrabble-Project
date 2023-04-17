@@ -5,7 +5,6 @@ import java.util.Random;
 public class gameplay {
     private HashMap<Character, Integer> tileBag;
     private HashMap<Character, Integer> tileScore;
-    //private String[] lettersTray;
     public gameplay() {
         this.initTileBag();
         this.initTileScore();
@@ -123,7 +122,7 @@ public class gameplay {
         Object randomLetter = letters[random.nextInt(letters.length)];
 
         if (this.tileBag.get(randomLetter) == 0) {
-            //Need to call function again
+            //Need to call function recursively
         } else {
             int newValue = this.tileBag.get(randomLetter) - 1;
             this.tileBag.put((Character) randomLetter, newValue);
