@@ -1,5 +1,6 @@
 import java.util.HashMap;
 import java.util.Random;
+import java.util.Scanner;
 // This class handles move validation and score handling
 // It also handles tileBag and tileScores
 public class gameplay {
@@ -129,6 +130,47 @@ public class gameplay {
             System.out.println(randomLetter);
         }
         return randomLetter;
+    }
+
+
+    player[] players = new player[2];
+    public void createNewPlayers() {
+        Scanner scanner = new Scanner(System.in);
+        for (int i = 0; i < players.length; i++) {
+            System.out.println("Enter the name of player "+ (i+1) +" : ");
+            players[i] = new player(scanner.next(), i, new String[7]);
+        }
+    }
+
+    public void gameOn() {
+        Game game = new Game();
+        Scanner scanner = new Scanner(System.in);
+        System.out.println(game.toString());
+        refillTray(players[0]);
+        showTray(players[0]);
+        System.out.println(players[0].getName() +", enter a word (Skip: *, Quit: #");
+        String theWord = scanner.next();
+
+        if (theWord.equals("*")) {
+            System.out.println("You decided to skip you turn.");
+            System.out.println("");
+        } else if (theWord.equals("#")) {
+            //turn =3;
+        } else {
+            if (Game.validateWord(theWord) == true) {
+                System.out.println(theWord + " is valid!");
+                //place word on board
+                //calculate score
+                //add score to total score
+                //}
+                //else {
+                //if word isn't working
+                //put letters back in tray
+                System.out.println("Sorry " + theWord + " is invalid");
+                System.out.println("");
+                //turn = 2;
+            }
+        }
     }
 
 

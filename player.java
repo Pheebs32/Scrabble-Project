@@ -1,9 +1,10 @@
-import java.lang.reflect.Field;
+import java.util.Scanner;
 public class player {
     private String name;
     private int id;
     private int currentScore;
     String [] letters;
+    private player[] players;
 
     public player(String name, int id, String[] letters) {
         this.name = name;
@@ -35,5 +36,11 @@ public class player {
     }
     public void setLetters(String[] letters) {
         this.letters = letters;
+    }
+    public player[] getPlayers() {
+        return players;
+    }
+    public void setPlayers(player[] players) {
+        this.players = players;
     }
 }
