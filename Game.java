@@ -141,10 +141,6 @@ public class Game {
     public static boolean validateWord(String word) {
         return dict.contains(word.toUpperCase());
     }
-
-    public static String getCellScore() {
-        return "";
-    }
     /*
     returns string representation of the board
     @return     Game string object
@@ -165,8 +161,26 @@ public class Game {
         }
         return board.toString();
     }
-    public void placeWordOnBoard(char[] word, int row, char col, int direction) {
+    //will not place a word on the board unless it is valid
+    public void placeWordOnBoard(move move) {
         //assumption that the word is valid
 
+        if (move.isValid) {
+            String word = move.word;
+            int row = move.startRow;
+            int col = move.startCol;
+
+            for (int i = 0; i < word.length(); i++) {
+                if (move.direction == move.RIGHT) {
+                    //increase row value to add word to the right
+                    System.out.println("Adding the word to the right.");
+                    this.scrabbleBoard[row][col+i] = word.toUpperCase().charAt(i);
+                } else if (move.direction == move.DOWN) {
+                    //increase col value to add word down
+                    this.scrabbleBoard[row+1][col] = word.toUpperCase().charAt(i);
+                }
+            }
+        }
     }
+
 }

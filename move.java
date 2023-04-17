@@ -8,9 +8,9 @@
 -----
 */
 
-public class move {
+class move {
     public static final int RIGHT = 1;
-    public static final int LEFT = 2;
+    public static final int DOWN = 2;
     String word;
     int direction;
     int startRow;
@@ -28,6 +28,7 @@ public class move {
         this.direction = direction;
         this.startRow = startRow;
         this.startCol = startCol;
+        this.isValid = false;
     }
     // @return computes total score of a word
     public int computeWordScore() {

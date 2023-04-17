@@ -5,12 +5,11 @@ import java.util.Scanner;
 // It also handles tileBag and tileScores
 public class gameplay {
     private HashMap<Character, Integer> tileBag;
-    private HashMap<Character, Integer> tileScore;
     private player[] players = new player[2];
     private int turn;
     public gameplay() {
         this.initTileBag();
-        this.initTileScore();
+
     }
 
     //Tile bag initialization and distribution
@@ -47,48 +46,7 @@ public class gameplay {
             this.tileBag.put('Z', 1);
         }
     }
-    //Initializes tile scores in another hashmap
-    // TODO: Find a way to read these values from the file
-    public void initTileScore() {
-        this.tileScore = new HashMap<Character, Integer>();
-        if (this.tileScore.isEmpty()) {
-            this.tileScore.put('A', 1);
-            this.tileScore.put('B', 3);
-            this.tileScore.put('C', 3);
-            this.tileScore.put('D', 2);
-            this.tileScore.put('E', 1);
-            this.tileScore.put('F', 2);
-            this.tileScore.put('G', 2);
-            this.tileScore.put('H', 4);
-            this.tileScore.put('I', 1);
-            this.tileScore.put('J', 8);
-            this.tileScore.put('K', 5);
-            this.tileScore.put('L', 1);
-            this.tileScore.put('M', 3);
-            this.tileScore.put('N', 1);
-            this.tileScore.put('O', 1);
-            this.tileScore.put('P', 3);
-            this.tileScore.put('Q', 10);
-            this.tileScore.put('R', 1);
-            this.tileScore.put('S', 1);
-            this.tileScore.put('T', 1);
-            this.tileScore.put('U', 1);
-            this.tileScore.put('V', 4);
-            this.tileScore.put('W', 4);
-            this.tileScore.put('X', 8);
-            this.tileScore.put('Y', 4);
-            this.tileScore.put('Z', 10);
-        }
-    }
 
-    /*
-    @param C    tile to be scored
-    @return     score for a tile
-    */
-    private int getTileScore(char C) {
-        if (this.tileScore.containsKey(C)) { throw new IllegalArgumentException(); }
-        return this.tileScore.get(C);
-    }
     /*
     used when game starts and after each move
     @param C    tile to be removed
