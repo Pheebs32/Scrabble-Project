@@ -10,6 +10,6 @@ public class application {
 
         gameplay gameplay = new gameplay();
         gameplay.createNewPlayers();
-        gameplay.gameOn();
+        gameplay.gameOn(1);
     }
 }

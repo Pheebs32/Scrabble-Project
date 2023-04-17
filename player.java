@@ -1,4 +1,3 @@
-import java.util.Scanner;
 public class player {
     private String name;
     private int id;
