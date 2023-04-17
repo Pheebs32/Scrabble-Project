@@ -15,7 +15,7 @@ public class move {
     boolean isValid;
     /*
     Constructs a move object
-    @param word
+    @param word - the word to be constructed
     @param direction
     @param coordinate
     */
