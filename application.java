@@ -42,12 +42,13 @@ public class application {
                     System.out.println("");
                     turn = 2;
                 } else if (theWord.equals("#")) {
-                    turn = 3;
+                    gameOn = false;
                 }
                 else {
                     //check if the word is valid itself and placement if valid and uses the tray
                     if (game.validateWord(theWord) == true) {
                         System.out.println(theWord +" is valid!");
+                        turn = 2;
                         //place word on board
                         //calculate score
                         //add score to total score
@@ -56,7 +57,7 @@ public class application {
                         //put letters back in tray
                         System.out.println("Sorry your word isn't valid.");
                         System.out.println("");
-                        turn = 2;
+                        turn = 1;
                     }
                 }
             } else if (turn == 2) {
@@ -77,6 +78,7 @@ public class application {
                     //check if the word is valid itself and placement if valid and uses the tray
                     if (game.validateWord(theWord) == true) {
                         System.out.println(theWord +" is valid!");
+                        turn = 1;
                         //place word on board
                         //calculate score
                         //add score to total score

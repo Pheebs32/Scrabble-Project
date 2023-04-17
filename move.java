@@ -9,18 +9,25 @@
 */
 
 public class move {
-    char[] word;
+    public static final int RIGHT = 1;
+    public static final int LEFT = 2;
+    String word;
     int direction;
-    int coordinate; //Starting coordinates of a word
+    int startRow;
+    int startCol;
     boolean isValid;
     /*
     Constructs a move object
-    @param word - the word to be constructed
-    @param direction
-    @param coordinate
+    @param word -       the word to be constructed
+    @param direction -  direction
+    @param startRow -   starting row coordinate of the move
+    @param startCol -   starting col coordinate of the move
     */
-    public move(char[] word, int direction, int coordinate) {
-
+    public move(String word, int direction, int startRow, int startCol) {
+        this.word = word;
+        this.direction = direction;
+        this.startRow = startRow;
+        this.startCol = startCol;
     }
     // @return computes total score of a word
     public int computeWordScore() {
@@ -31,8 +38,9 @@ public class move {
     @param word player's input
     @return     T/F if move is valid
     */
-    public boolean isWordValid(char[] word) {
-        return false;
+    // might not be necessary
+    public boolean isWordValid(String word) {
+        return Game.validateWord(word);
     }
     public boolean registerMove() {
         return false;
