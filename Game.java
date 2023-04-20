@@ -12,10 +12,8 @@ import java.util.HashSet;
 import java.util.HashMap;
 
 //Game class for Scrabble - Handles the game logic
-// TODO: convert this to a Singleton since only one object should ever be required
-// TODO: change HashSet implementation of dict
-
 public class Game {
+    // TODO: change board represetation - adding W, w, L, l ...
     char[][] scrabbleBoard;
     private static HashSet<String> dict;
     private static HashMap<String, String> boardScores;
@@ -31,12 +29,13 @@ public class Game {
             System.err.println("FileNotFoundExpectation: " + e);
         }
     }
-
+    // TODO: change display logic - view class handle the chars??
+    // TODO: actual board only has tiles or is empty
     private void initGame() {
         this.scrabbleBoard = new char[15][15];
         for (int i = 0; i < 15; i++) {
             for (int j = 0; j < 15; j++) {
-                this.scrabbleBoard[i][j] = '_';
+                this.scrabbleBoard[i][j] = ' ';
             }
         }
         this.scrabbleBoard[7][7] = 'X';
@@ -128,10 +127,16 @@ public class Game {
         boardScores.put("812", "2W");
         boardScores.put("314", "2W");
         boardScores.put("1114", "2W");
+    }
 
-
-
-
+    /*
+    returns the char on the board at (row, col)
+    @param row  row index
+    @param col  col index
+    @return     char at (row, col)
+    */
+    public char getTileOnBoard(int row, int col) {
+        return this.scrabbleBoard[row][col];
     }
 
     /*
@@ -147,7 +152,7 @@ public class Game {
     */
     public String toString() {
         StringBuilder board = new StringBuilder();
-        board.append(" A B C D E F G H I J K L M N O\n");
+        board.append("   0  1  2  3  4  5  6  7  8  9  10 11 12 13 14\n");
         for (int i = 0; i < 15; i++) {
             if (i >= 10) {
                 board.append(i).append(" ");

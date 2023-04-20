@@ -1,8 +1,6 @@
-//handles all the printing of various objects
+//This class handles all the view drawings. All methods are static.
+//Other classes send an object and this class adds the UI before displaying.
 public class view {
-    //only contains methods that sprint string objects?
-    //shouldn't be any instance vars in that case?
-    //TODO: find proper purpose for this class
     public static void printGame(Game game) {
         System.out.println(game.toString());
     }

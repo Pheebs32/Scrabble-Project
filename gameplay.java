@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.Scanner;
@@ -9,9 +10,7 @@ public class gameplay {
     private int turn;
     public gameplay() {
         this.initTileBag();
-
     }
-
     //Tile bag initialization and distribution
     //Values taken from : 'thesprucecrafts.com/scrabble-tile-distribution-and-point-values-412402'
     // TODO: Find a way to read these values from the file
@@ -46,7 +45,6 @@ public class gameplay {
             this.tileBag.put('Z', 1);
         }
     }
-
     /*
     used when game starts and after each move
     @param C    tile to be removed
@@ -123,36 +121,30 @@ public class gameplay {
         }
         Game game = new Game();
         Scanner scanner = new Scanner(System.in);
-        //hiding the board for now for testing purposes
-        //System.out.println(game.toString());
-        refillTray(players[0]);
-        //showTray(players[0]);
+        System.out.println(game);
+        refillTray(thePlayer);
+        showTray(thePlayer);
         System.out.println(players[0].getName() +", enter a word (Skip: *, Quit: #");
         String theWord = scanner.next();
 
         if (theWord.equals("*")) {
             System.out.println("You decided to skip you turn.");
-            System.out.println("");
             gameOn(switchTurn());
         } else if (theWord.equals("#")) {
             endGame();
         } else {
-            if (Game.validateWord(theWord) == true) {
+            if (Game.validateWord(theWord)) {
                 System.out.println(theWord + " is valid!");
                 //place word on board
                 //calculate score
                 //add score to total score
                 gameOn(switchTurn());
             } else {
-                //if word isn't working
-                //put letters back in tray
                 System.out.println("Sorry " + theWord + " is invalid");
-                System.out.println("");
                 gameOn(switchTurn());
             }
         }
     }
-
 
     public void refillTray(player player) {
         String[] lettersTray = player.getLetters();
@@ -170,5 +162,162 @@ public class gameplay {
             System.out.println(player.getLetters()[i] + " ");
         }
         System.out.println(" ");
+    }
+    /*
+    @param move move object played
+    @return     boolean
+    */
+    public boolean isMoveValid(move move, Game game) {
+        String word = move.word;
+        int row = move.startRow;
+        int col = move.startCol;
+        int dir = move.direction;
+        boolean tilesPresent = false;
+
+        //does word overflow boar?
+        //checking both row, col overflow together
+        if ((dir == move.RIGHT && (col + word.length() > 14)) ||
+                (dir == move.DOWN && (row + word.length() > 14))) {
+            System.out.println("Board overflow. Invalid move!");
+            return false;
+        }
+        //is word valid using dictionary?
+        if (!Game.validateWord(word)) {
+            System.out.println("Word doesn't exist in Dictionary.");
+            return false;
+        }
+        //if it's the first move of the game does the work cross the centre X?
+        if (move.totalNumberOfMoves == 0 && (row > 7 && col > 7)) {
+            System.out.println("First move should touch the center of the board.");
+            return false;
+        }
+        //if it's the 2nd or greater move in the game, does it touch at least one other tile
+        //navigate through board to see if there is any char between row,col -> word.length()
+        if (move.totalNumberOfMoves > 0) {
+            for (int i = 0; i < word.length(); i++) {
+                if (dir == move.DOWN) {
+                    if (game.getTileOnBoard(row, col + i) != ' ') { tilesPresent = true; }
+                    } else if (dir == move.DOWN) {
+                        if (game.getTileOnBoard(row + 1, col) != ' ') { tilesPresent = true; }
+                    }
+                }
+            if (!tilesPresent) {
+                System.out.println("New word has to touch an existing word.");
+                return false;
+            }
+        }
+
+        //verify if the intended word does not have tiles before the 1st and after the last tile
+        //the current word being played has to be the largest contiguous string on the board
+        //at that position
+
+        //verify is all secondary words formed make sense
+        ArrayList<String> secList = this.getSecondaryWords(move, game);
+        if (!this.validateSecondaryWords(secList)) {
+            System.out.println("Invalid secondary word created.");
+            return false;
+        }
+        move.isValid = true;
+        return true;
+    }
+    private boolean validateSecondaryWords(ArrayList<String> list) {
+        return false;
+    }
+
+    /*
+    private helper method that returns the other words formed due to a move
+    @param move     current move
+    @param board    board object
+    @return         list containing secondary words
+    */
+    // TODO: change to private once testing is complete
+    public ArrayList<String> getSecondaryWords (move move, Game game){
+        ArrayList<String> secWords = new ArrayList<String>();
+        String word = move.word.toUpperCase();
+        int row = move.startRow;
+        int col = move.startCol;
+        int dir = move.direction;
+
+        for (int i = 0; i < word.length(); i++) {
+            if (dir == move.RIGHT) {
+                if (game.getTileOnBoard(row, col + i) == ' ') {
+                    //user is inserting a tile
+                    if (game.getTileOnBoard(row - 1, col + i) == ' ' ||
+                            game.getTileOnBoard(row + 1, col + i) != ' ') {
+                        System.out.println("calling construct word for: " + word.charAt(i));
+                        secWords.add(this.constructWord(row, col + i, word.charAt(i), move, game));
+                    }
+                }
+            } else if (dir == move.DOWN) {
+                if (game.getTileOnBoard(row + i, col) == ' ') {
+                    if (game.getTileOnBoard(row + i, col - 1) != ' ' ||
+                            game.getTileOnBoard(row + i, col + 1) != ' ') {
+                        System.out.println("calling construct word for: " + word.charAt(i));
+                        secWords.add(this.constructWord(row + i, col, word.charAt(i), move, game));
+                    }
+                }
+            }
+        }
+        return secWords;
+    }
+
+    /*
+    private helper method that returns the other words formed due to a move
+    @param row  row index
+    @param col  col index
+    @param C
+    @return     constructed word/ null
+    */
+    private String constructWord(int row, int col, char C, move move, Game game) {
+        StringBuilder newWord = new StringBuilder();
+        int start;
+        int end;
+        int i = 1;
+        int j = 1;
+        int dir = move.direction;
+        //String word = move.word;
+        C = Character.toUpperCase(C);
+
+        if (dir == move.DOWN) {
+            System.out.println("dir down");
+            while (col - j >= 0 && game.getTileOnBoard(row, col - j) != ' ') {
+                j++;
+            }
+            start = col - j + i;
+            j = 1; //reset j
+
+            while (col + j <= 14 && game.getTileOnBoard(row, col + j) != ' ') {
+                    j++;
+                }
+            end = col + j - 1;
+
+            for (int newCol = start; newCol <= end; newCol++) {
+                if (newCol == col)    {newWord.append(C);}
+                else { newWord.append(game.getTileOnBoard(row, newCol)); }
+            }
+            return newWord.toString().trim();
+        } else if (dir == move.RIGHT) {
+            System.out.println("dir right");
+            while (row - i >= 0 && game.getTileOnBoard(row - i, col) != ' ') {
+                i++;
+            }
+            start = row - i + 1;
+            i = 1;
+
+            while (row + i <= 14 && game.getTileOnBoard(row + i, col) != ' ') {
+                i++;
+            }
+            end = row + i - 1;
+            for (int newRow = start; newRow <= end; newRow++) {
+                if (newRow == row) {
+                    newWord.append(C);
+                } else {
+                    newWord.append(game.getTileOnBoard(newRow, col));
+                }
+            }
+            return newWord.toString().trim();
+        }
+        System.out.println("Constructing null");
+        return null;
     }
 }

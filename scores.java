@@ -2,7 +2,7 @@ import java.util.HashMap;
 
 public class scores {
     private HashMap<player, Integer> scoreMap;
-    private HashMap<Character, Integer> tileScore;
+    public static HashMap<Character, Integer> tileScore;
 
     public scores(player player1, player player2) {
         this.scoreMap = new HashMap<player, Integer>();
@@ -14,34 +14,34 @@ public class scores {
     //Initializes tile scores in another hashmap
     // TODO: Find a way to read these values from the file
     public void initTileScore() {
-        this.tileScore = new HashMap<Character, Integer>();
-        if (this.tileScore.isEmpty()) {
-            this.tileScore.put('A', 1);
-            this.tileScore.put('B', 3);
-            this.tileScore.put('C', 3);
-            this.tileScore.put('D', 2);
-            this.tileScore.put('E', 1);
-            this.tileScore.put('F', 2);
-            this.tileScore.put('G', 2);
-            this.tileScore.put('H', 4);
-            this.tileScore.put('I', 1);
-            this.tileScore.put('J', 8);
-            this.tileScore.put('K', 5);
-            this.tileScore.put('L', 1);
-            this.tileScore.put('M', 3);
-            this.tileScore.put('N', 1);
-            this.tileScore.put('O', 1);
-            this.tileScore.put('P', 3);
-            this.tileScore.put('Q', 10);
-            this.tileScore.put('R', 1);
-            this.tileScore.put('S', 1);
-            this.tileScore.put('T', 1);
-            this.tileScore.put('U', 1);
-            this.tileScore.put('V', 4);
-            this.tileScore.put('W', 4);
-            this.tileScore.put('X', 8);
-            this.tileScore.put('Y', 4);
-            this.tileScore.put('Z', 10);
+        scores.tileScore = new HashMap<Character, Integer>();
+        if (scores.tileScore.isEmpty()) {
+            scores.tileScore.put('A', 1);
+            scores.tileScore.put('B', 3);
+            scores.tileScore.put('C', 3);
+            scores.tileScore.put('D', 2);
+            scores.tileScore.put('E', 1);
+            scores.tileScore.put('F', 2);
+            scores.tileScore.put('G', 2);
+            scores.tileScore.put('H', 4);
+            scores.tileScore.put('I', 1);
+            scores.tileScore.put('J', 8);
+            scores.tileScore.put('K', 5);
+            scores.tileScore.put('L', 1);
+            scores.tileScore.put('M', 3);
+            scores.tileScore.put('N', 1);
+            scores.tileScore.put('O', 1);
+            scores.tileScore.put('P', 3);
+            scores.tileScore.put('Q', 10);
+            scores.tileScore.put('R', 1);
+            scores.tileScore.put('S', 1);
+            scores.tileScore.put('T', 1);
+            scores.tileScore.put('U', 1);
+            scores.tileScore.put('V', 4);
+            scores.tileScore.put('W', 4);
+            scores.tileScore.put('X', 8);
+            scores.tileScore.put('Y', 4);
+            scores.tileScore.put('Z', 10);
         }
     }
     /*
@@ -49,8 +49,8 @@ public class scores {
     @return     score for a tile
     */
     private int getTileScore(char C) {
-        if (this.tileScore.containsKey(C)) { throw new IllegalArgumentException(); }
-        return this.tileScore.get(C);
+        if (scores.tileScore.containsKey(C)) { throw new IllegalArgumentException(); }
+        return scores.tileScore.get(C);
     }
     /*
     updates players score
