@@ -50,7 +50,7 @@ public class Game {
 
             //add all words from words.txt to hashset
             while (line != null) {
-                dict.add(line);
+                dict.add(line.toUpperCase());
                 line = dictReader.readLine();
             }
         } catch (IOException e) {

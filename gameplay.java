@@ -167,15 +167,15 @@ public class gameplay {
     @param move move object played
     @return     boolean
     */
-    public boolean isMoveValid(move move, Game game) {
+    public boolean isMoveValid(player player, move move, Game game) {
         String word = move.word;
         int row = move.startRow;
         int col = move.startCol;
         int dir = move.direction;
+        //char[] tileCopy = player.getLetters():
         boolean tilesPresent = false;
 
-        //does word overflow boar?
-        //checking both row, col overflow together
+        //does board overflow?
         if ((dir == move.RIGHT && (col + word.length() > 14)) ||
                 (dir == move.DOWN && (row + word.length() > 14))) {
             System.out.println("Board overflow. Invalid move!");
@@ -186,13 +186,18 @@ public class gameplay {
             System.out.println("Word doesn't exist in Dictionary.");
             return false;
         }
+        //does player have enough tiles to play
+        if (!this.doesPlayerHaveTiles(player, move, game)) {
+            System.out.println("Not enough tiles to play move!");
+            return false;
+        }
+
         //if it's the first move of the game does the work cross the centre X?
         if (move.totalNumberOfMoves == 0 && (row > 7 && col > 7)) {
             System.out.println("First move should touch the center of the board.");
             return false;
         }
-        //if it's the 2nd or greater move in the game, does it touch at least one other tile
-        //navigate through board to see if there is any char between row,col -> word.length()
+        //does the second (or greater) move touch an existing tile
         if (move.totalNumberOfMoves > 0) {
             for (int i = 0; i < word.length(); i++) {
                 if (dir == move.DOWN) {
@@ -207,11 +212,25 @@ public class gameplay {
             }
         }
 
-        //verify if the intended word does not have tiles before the 1st and after the last tile
-        //the current word being played has to be the largest contiguous string on the board
-        //at that position
+        //can that word be constructed on the board
+        // TODO: what if you wish to play 'road' with a present 'R' but there is an 'F' instead of a 'D'
 
-        //verify is all secondary words formed make sense
+        //intended word should be the largest contiguous string in that direction
+        if (dir == move.RIGHT) {
+            if (game.getTileOnBoard(row, col + word.length() + 1) != ' ' ||
+                    game.getTileOnBoard(row, col - 1) != ' ') {
+                System.out.println("Incomplete input word?");
+                return false;
+            }
+        } else if (dir == move.DOWN) {
+            if (game.getTileOnBoard(row + word.length() + 1, col) != ' ' ||
+                    game.getTileOnBoard(row - 1, col) != ' ') {
+                System.out.println("Incomplete input word?");
+                return false;
+            }
+        }
+
+        //are secondary words valid if existing
         ArrayList<String> secList = this.getSecondaryWords(move, game);
         if (!this.validateSecondaryWords(secList)) {
             System.out.println("Invalid secondary word created.");
@@ -220,8 +239,19 @@ public class gameplay {
         move.isValid = true;
         return true;
     }
-    private boolean validateSecondaryWords(ArrayList<String> list) {
+
+    private boolean doesPlayerHaveTiles(player player, move move, Game game) {
         return false;
+    }
+
+    private boolean validateSecondaryWords(ArrayList<String> list) {
+        for (String str: list) {
+            if (!Game.validateWord(str)) {
+                System.out.println(str+ " not valid secondary word.");
+                return false;
+            }
+        }
+        return true;
     }
 
     /*

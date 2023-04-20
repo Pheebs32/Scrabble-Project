@@ -18,6 +18,7 @@ class move {
     int startRow;
     int startCol;
     boolean isValid;
+    ArrayList<String> secondaryWords;
 
     /*
     Constructs a move object
@@ -37,6 +38,20 @@ class move {
     }
 
     /*
+    utility method that converts Strings to char arrays
+    useful for using characters for validation
+    @param str  input string word
+    @return     Char array of str
+    */
+    public static char[] convertStringToCharsArray(String str) {
+        char[] charArr = new char[str.length()];
+        for (int i = 0; i < str.length(); i++) {
+            charArr[i] = str.charAt(i);
+        }
+        return charArr;
+    }
+
+    /*
     to check the game state (valid + invalid)
     @return # of moves
     */
@@ -48,15 +63,6 @@ class move {
     // @return computes total score of a word
     public int computeWordScore() {
         return -1;
-    }
-    /*
-    Implements an algorithm to compute if the move is correct
-    @param word player's input
-    @return     T/F if move is valid
-    */
-    // might not be necessary
-    public boolean isWordValid(String word) {
-        return Game.validateWord(word);
     }
     public boolean registerMove() {
         return false;
