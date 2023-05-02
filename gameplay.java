@@ -143,6 +143,7 @@ public class gameplay {
             move theMove = new move(theWord, theDirection, theRow, theCol);
 
             isMoveValid(thePlayer, theMove, game);
+            gameOn(switchTurn());
 
 //            if (Game.validateWord(theWord)) {
 //                System.out.println(theWord + " is valid!");
@@ -183,6 +184,9 @@ public class gameplay {
         Arrays.sort(tilecopy);
         boolean tilesPresent = false;
 
+        System.out.println(player.getName());
+        System.out.println("What are the players letters? " + player.getLetters()[0]);
+
         //does board overflow?
         if ((dir == move.RIGHT && (col + word.length() > 14)) ||
                 (dir == move.DOWN && (row + word.length() > 14))) {
@@ -216,12 +220,12 @@ public class gameplay {
 //        }
 
         //if it's the first move of the game does the work cross the centre X?
-        if (move.totalNumberOfMoves == 0 && (row > 7 && col > 7)) {
+        if (move.totalNumberOfMoves == 1 && (row > 7 && col > 7)) {
             System.out.println("First move should touch the center of the board.");
             return false;
         }
         //does the second (or greater) move touch an existing tile
-        if (move.totalNumberOfMoves > 0) {
+        if (move.totalNumberOfMoves > 1) {
             for (int i = 0; i < word.length(); i++) {
                 if (dir == move.RIGHT) {
                     if (game.getTileOnBoard(row, col + i) != ' ') { tilesPresent = true; }
@@ -242,12 +246,13 @@ public class gameplay {
                     //don't do anything, this is expected
                 } else if (game.getTileOnBoard(row, col + i) == ' ') {
                     //empty cell - user should have it
+                    System.out.println("HELLO" + Arrays.binarySearch(tilecopy, String.valueOf(word.charAt(i))));
                     int pos = Arrays.binarySearch(tilecopy, String.valueOf(word.charAt(i)));
                     if (pos >= 0) {
                         tilecopy[pos] = null;
                     } else {
                         //neither empty cell nor unexpected char -- stepping over someone else's placed piece
-                        System.out.println("Unknown char! unable to insert" + word.charAt(i));
+                        System.out.println("Unknown character! Unable to insert '" + word.charAt(i) + "'.");
                         return false;
                     }
                 } else if (dir == move.DOWN) {
@@ -259,19 +264,19 @@ public class gameplay {
                         if (pos >= 0) {
                             tilecopy[pos] = null;
                         } else {
-                            System.out.println("Player does not have char: " + word.charAt(i));
+                            System.out.println("You are missing the letter '" + word.charAt(i) + "'.");
                             return false;
                         }
                     } else {
                         //neither empty cell not expected char -- stepping over someone else's placed piece
-                        System.out.println("Unknown char! unable to insert" + word.charAt(i));
+                        System.out.println("Unknown character! Unable to insert '" + word.charAt(i) + "'.");
                         return false;
                     }
                 }
             }
             //no letter was used from the tray
             if (tilecopy.length == player.getLetters().length) {
-                System.out.println("The word already exists! Try again!");
+                System.out.println("The word already exists. Try again!");
                 return false;
             }
         }
@@ -279,7 +284,7 @@ public class gameplay {
         //are secondary words valid if existing
         ArrayList<String> secList = this.getSecondaryWords(move, game);
         if (!this.validateSecondaryWords(secList)) {
-            System.out.println("Invalid secondary word created.");
+            System.out.println("The other words you created are invalid. Sorry!");
             return false;
         }
         // 1. Set the mood to valid
