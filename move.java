@@ -68,9 +68,8 @@ class move {
         return move.totalNumberOfMoves;
     }
 
-
     // @return computes total score of a word
-    public int computeWordScore() {
+    public int computeWordScore(move move) {
         return -1;
     }
     public boolean registerMove() {

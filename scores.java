@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class scores {
@@ -78,14 +79,60 @@ public class scores {
         } else return -1;
     }
 
-    //the score of letters only from the formed word
-    public int computeWordScore(String word) {
-        return -1;
+    /*
+    returns the score of the move
+    @param player   who played the move
+    @param move     move being played
+    @return         move score
+    */
+    public int computeWordScore(move move) {
+        ArrayList<String> list = move.secondaryWords;
+        String word = move.word;
+        int dir = move.direction;
+        int row = move.startRow;
+        int col = move.startCol;
+
+        int totalScore = 0;
+        int tempWordScore = 0;
+        int wordMultiplier = 1; //double or triple scores
+        int tileMultiplier = 1;
+        int secondaryScore = 0;
+
+        for (int i = 0; i < word.length(); i++) {
+            if (dir == move.RIGHT) {
+                String boardRef = String.valueOf(row) + String.valueOf(col + i);
+                if (Game.getBoardScoreForTile(boardRef).equals("2W")) { wordMultiplier = 2;}
+                if (Game.getBoardScoreForTile(boardRef).equals("3W")) { wordMultiplier = 3;}
+                if (Game.getBoardScoreForTile(boardRef).equals("2L")) { wordMultiplier = 2;}
+                if (Game.getBoardScoreForTile(boardRef).equals("3L")) { wordMultiplier = 3;}
+
+                tempWordScore += (scores.tileScore.get(Character.toUpperCase(word.charAt(i)))) * tileMultiplier;
+            } else if (dir == move.DOWN) {
+                String boardRef = String.valueOf(row + i) + String.valueOf(col);
+                if (Game.getBoardScoreForTile(boardRef).equals("2W")) { wordMultiplier = 2;}
+                if (Game.getBoardScoreForTile(boardRef).equals("3W")) { wordMultiplier = 3;}
+                if (Game.getBoardScoreForTile(boardRef).equals("2L")) { wordMultiplier = 2;}
+                if (Game.getBoardScoreForTile(boardRef).equals("3L")) { wordMultiplier = 3;}
+
+                tempWordScore += (scores.tileScore.get(Character.toUpperCase(word.charAt(i)))) * tileMultiplier;
+            }
+        }
+        totalScore += tempWordScore * wordMultiplier;
+        secondaryScore = this.computeSecondaryWordScore(move);
+
+        return totalScore + secondaryScore;
     }
 
     //the score of the move assuming the move is valid
-    public int computeMoveScore(move move) {
-        return -1;
+    private int computeSecondaryWordScore(move move) {
+        ArrayList<String> list = move.secondaryWords;
+        int tempScore = 0;
+        for (String str : list) {
+            for (int i = 0; i < str.length(); i++) {
+                tempScore += scores.tileScore.get(Character.toUpperCase(str.charAt(i)));
+            }
+        }
+        return tempScore;
     }
 
 }
