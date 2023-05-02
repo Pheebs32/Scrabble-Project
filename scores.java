@@ -49,8 +49,10 @@ public class scores {
     @return     score for a tile
     */
     private int getTileScore(char C) {
-        if (scores.tileScore.containsKey(C)) { throw new IllegalArgumentException(); }
-        return scores.tileScore.get(C);
+        if (scores.tileScore.containsKey(C)) {
+            return scores.tileScore.get(C);
+        }
+        return -1;
     }
     /*
     updates players score
@@ -60,6 +62,7 @@ public class scores {
     private void updatePlayerScore(player player, int score) {
         if (score < 0)      { throw new IllegalArgumentException("negative score!"); }
         if (player == null) { throw new IllegalArgumentException("player obj null"); }
+
         int newScore = this.scoreMap.get(player) + score;
         this.scoreMap.put(player, newScore);
     }

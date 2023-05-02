@@ -37,6 +37,15 @@ class move {
         move.totalNumberOfMoves++;
     }
 
+    //variables are not declared private
+//    public void setSecondaryWords(ArrayList<String> list) {
+//        if (!list.isEmpty()) {
+//            this.secondaryWords = list;
+//        } else {
+//            System.out.println("Secondary list empty! Nothing to set.");
+//        }
+//    }
+
     /*
     utility method that converts Strings to char arrays
     useful for using characters for validation

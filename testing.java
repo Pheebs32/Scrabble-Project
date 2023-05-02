@@ -17,20 +17,21 @@ public class testing {
         gameBoard.placeWordOnBoard(move2);
         System.out.println(gameBoard.toString());
 
-//        move move3 = new move("tar", move.RIGHT, 9,9);
-//        move3.isValid = true;
-//        gameBoard.placeWordOnBoard(move3);
-//        System.out.println(gameBoard.toString());
-//
-//        move move4 = new move("road", move.DOWN, 7,10);
-//        ArrayList<String> move4Test = game.getSecondaryWords(move4, gameBoard);
+        move move3 = new move("tar", move.RIGHT, 9,9);
+        move3.isValid = true;
+        gameBoard.placeWordOnBoard(move3);
+        System.out.println(gameBoard.toString());
+
+        move move4 = new move("road", move.DOWN, 7,10);
+        ArrayList<String> move4Test = game.getSecondaryWords(move4, gameBoard);
 //        System.out.println("new word: " +move4Test.size());
-//
 //        System.out.println("word: " +move4Test.remove(0));
 //        System.out.println("word: " +move4Test.remove(0));
-//        move4.isValid = true;
-//        gameBoard.placeWordOnBoard(move4);
-//        System.out.println(gameBoard.toString());
+        move4.isValid = true;
+        gameBoard.placeWordOnBoard(move4);
+        System.out.println(gameBoard.toString());
+
+        System.out.println("total moves: " + move.totalNumberOfMoves);
 
     }
 }

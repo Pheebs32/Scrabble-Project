@@ -42,4 +42,7 @@ public class player {
     public void setPlayers(player[] players) {
         this.players = players;
     }
+    public void removeTileFromTray(char C) {
+
+    }
 }

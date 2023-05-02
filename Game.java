@@ -13,7 +13,7 @@ import java.util.HashMap;
 
 //Game class for Scrabble - Handles the game logic
 public class Game {
-    // TODO: change board represetation - adding W, w, L, l ...
+    // TODO: change board representation - adding W, w, L, l ...
     char[][] scrabbleBoard;
     private static HashSet<String> dict;
     private static HashMap<String, String> boardScores;
@@ -128,6 +128,13 @@ public class Game {
         boardScores.put("314", "2W");
         boardScores.put("1114", "2W");
     }
+    public static String getBoardScoreForTile(String ref) {
+        if (Game.boardScores.containsKey(ref)) {
+            return Game.boardScores.get(ref);
+        } else {
+            return null;
+        }
+    }
 
     /*
     returns the char on the board at (row, col)
@@ -145,6 +152,16 @@ public class Game {
     */
     public static boolean validateWord(String word) {
         return dict.contains(word.toUpperCase());
+    }
+    public char[][] getScrabbleBoardClone() {
+        char[][] boardClone = new char[15][15];
+
+        for (int i = 0; i < 15; i++) {
+            for (int j = 0; j < 15; j++) {
+                boardClone[i][j] = this.scrabbleBoard[i][j];
+            }
+        }
+        return boardClone;
     }
     /*
     returns string representation of the board
@@ -181,6 +198,7 @@ public class Game {
                     System.out.println("Adding the word to the right.");
                     this.scrabbleBoard[row][col+i] = word.toUpperCase().charAt(i);
                 } else if (move.direction == move.DOWN) {
+                    System.out.println("Adding the word down.");
                     //increase col value to add word down
                     this.scrabbleBoard[row+1][col] = word.toUpperCase().charAt(i);
                 }

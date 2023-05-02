@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.*;
 // This class handles move validation and score handling
 // It also handles tileBag and tileScores
 public class gameplay {
@@ -163,6 +164,9 @@ public class gameplay {
         }
         System.out.println(" ");
     }
+    private boolean doesPlayerHaveTiles(player player, move move, Game game) {
+        return false;
+    }
     /*
     @param move move object played
     @return     boolean
@@ -172,7 +176,8 @@ public class gameplay {
         int row = move.startRow;
         int col = move.startCol;
         int dir = move.direction;
-        //char[] tileCopy = player.getLetters():
+        String[] tilecopy = player.getLetters();
+        Arrays.sort(tilecopy);
         boolean tilesPresent = false;
 
         //does board overflow?
@@ -186,10 +191,66 @@ public class gameplay {
             System.out.println("Word doesn't exist in Dictionary.");
             return false;
         }
+        //intended word should be the largest contiguous string in that direction
+        if (dir == move.RIGHT) {
+            if (game.getTileOnBoard(row, col + word.length() + 1) != ' ' ||
+                    game.getTileOnBoard(row, col - 1) != ' ') {
+                System.out.println("Incomplete input word? (right)");
+                return false;
+            }
+        } else if (dir == move.DOWN) {
+            if (game.getTileOnBoard(row + word.length() + 1, col) != ' ' ||
+                    game.getTileOnBoard(row - 1, col) != ' ') {
+                System.out.println("Incomplete input word? (down)");
+                return false;
+            }
+        }
+
         //does player have enough tiles to play
-        if (!this.doesPlayerHaveTiles(player, move, game)) {
-            System.out.println("Not enough tiles to play move!");
-            return false;
+//        if (!this.doesPlayerHaveTiles(player, move, game)) {
+//            System.out.println("Not enough tiles to play move!");
+//            return false;
+//        }
+
+        //can the word be constructed on the board
+        for (int i = 0; i < word.length(); i++) {
+            if (dir == move.RIGHT) {
+                if (game.getTileOnBoard(row, col + i) == word.charAt(i)) {
+                    //don't do anything, this is expected
+                } else if (game.getTileOnBoard(row, col + i) == ' ') {
+                    //empty cell - user should have it
+                    int pos = Arrays.binarySearch(tilecopy, String.valueOf(word.charAt(i)));
+                    if (pos >= 0) {
+                        tilecopy[pos] = null;
+                    } else {
+                        //neither empty cell nor unexpected char -- stepping over someone else's placed piece
+                        System.out.println("Unknown char! unable to insert" + word.charAt(i));
+                        return false;
+                    }
+                } else if (dir == move.DOWN) {
+                    if (game.getTileOnBoard(row + i, col) == word.charAt(i)) {
+                        //expected for at most all-1 cases
+                    } else if (game.getTileOnBoard(row + i, col) == ' ') {
+                        //empty cell - find tile with player
+                        int pos = Arrays.binarySearch(tilecopy, String.valueOf(word.charAt(i)));
+                        if (pos >= 0) {
+                            tilecopy[pos] = null;
+                        } else {
+                            System.out.println("Player does not have char: " + word.charAt(i));
+                            return false;
+                        }
+                    } else {
+                        //neither empty cell not expected char -- stepping over someone else's placed piece
+                        System.out.println("Unknown char! unable to insert" + word.charAt(i));
+                        return false;
+                    }
+                }
+            }
+            //no letter was used from the tray
+            if (tilecopy.length == player.getLetters().length) {
+                System.out.println("The word already exists! Try again!");
+                return false;
+            }
         }
 
         //if it's the first move of the game does the work cross the centre X?
@@ -200,10 +261,10 @@ public class gameplay {
         //does the second (or greater) move touch an existing tile
         if (move.totalNumberOfMoves > 0) {
             for (int i = 0; i < word.length(); i++) {
-                if (dir == move.DOWN) {
+                if (dir == move.RIGHT) {
                     if (game.getTileOnBoard(row, col + i) != ' ') { tilesPresent = true; }
                     } else if (dir == move.DOWN) {
-                        if (game.getTileOnBoard(row + 1, col) != ' ') { tilesPresent = true; }
+                        if (game.getTileOnBoard(row + i, col) != ' ') { tilesPresent = true; }
                     }
                 }
             if (!tilesPresent) {
@@ -211,38 +272,19 @@ public class gameplay {
                 return false;
             }
         }
-
-        //can that word be constructed on the board
-        // TODO: what if you wish to play 'road' with a present 'R' but there is an 'F' instead of a 'D'
-
-        //intended word should be the largest contiguous string in that direction
-        if (dir == move.RIGHT) {
-            if (game.getTileOnBoard(row, col + word.length() + 1) != ' ' ||
-                    game.getTileOnBoard(row, col - 1) != ' ') {
-                System.out.println("Incomplete input word?");
-                return false;
-            }
-        } else if (dir == move.DOWN) {
-            if (game.getTileOnBoard(row + word.length() + 1, col) != ' ' ||
-                    game.getTileOnBoard(row - 1, col) != ' ') {
-                System.out.println("Incomplete input word?");
-                return false;
-            }
-        }
-
         //are secondary words valid if existing
         ArrayList<String> secList = this.getSecondaryWords(move, game);
         if (!this.validateSecondaryWords(secList)) {
             System.out.println("Invalid secondary word created.");
             return false;
         }
+        // 1. Set the mood to valid
+        // 2. Secondary words created should be passed onto the move object
         move.isValid = true;
+        move.secondaryWords = secList;
         return true;
     }
 
-    private boolean doesPlayerHaveTiles(player player, move move, Game game) {
-        return false;
-    }
 
     private boolean validateSecondaryWords(ArrayList<String> list) {
         for (String str: list) {
@@ -272,7 +314,7 @@ public class gameplay {
             if (dir == move.RIGHT) {
                 if (game.getTileOnBoard(row, col + i) == ' ') {
                     //user is inserting a tile
-                    if (game.getTileOnBoard(row - 1, col + i) == ' ' ||
+                    if (game.getTileOnBoard(row - 1, col + i) != ' ' ||
                             game.getTileOnBoard(row + 1, col + i) != ' ') {
                         System.out.println("calling construct word for: " + word.charAt(i));
                         secWords.add(this.constructWord(row, col + i, word.charAt(i), move, game));
@@ -322,10 +364,11 @@ public class gameplay {
             end = col + j - 1;
 
             for (int newCol = start; newCol <= end; newCol++) {
-                if (newCol == col)    {newWord.append(C);}
+                if (newCol == col) {newWord.append(C);}
                 else { newWord.append(game.getTileOnBoard(row, newCol)); }
             }
             return newWord.toString().trim();
+
         } else if (dir == move.RIGHT) {
             System.out.println("dir right");
             while (row - i >= 0 && game.getTileOnBoard(row - i, col) != ' ') {
