@@ -2,13 +2,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class scores {
-    private HashMap<player, Integer> scoreMap;
+    private static HashMap<player, Integer> scoreMap;
     public static HashMap<Character, Integer> tileScore;
 
     public scores(player player1, player player2) {
-        this.scoreMap = new HashMap<player, Integer>();
-        this.scoreMap.put(player1, 0);
-        this.scoreMap.put(player2, 0);
+        scoreMap = new HashMap<player, Integer>();
+        scoreMap.put(player1, 0);
+        scoreMap.put(player2, 0);
         this.initTileScore();
     }
 
@@ -72,10 +72,10 @@ public class scores {
     @param player   player in question
     @return         players score
     */
-    public int getPlayerScore(player player) {
+    public static int getPlayerScore(player player) {
         if (player == null) { throw new IllegalArgumentException("player obj null"); }
-        if (this.scoreMap.containsKey(player)) {
-            return this.scoreMap.get(player);
+        if (scores.scoreMap.containsKey(player)) {
+            return scores.scoreMap.get(player);
         } else return -1;
     }
 

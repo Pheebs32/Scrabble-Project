@@ -69,13 +69,16 @@ public class Game {
         boardScores.put("70", "3W");
         boardScores.put("07", "3W");
         boardScores.put("014", "3W");
+        boardScores.put("140", "3W");
+        boardScores.put("147", "3W");
+        boardScores.put("714", "3W");
+        boardScores.put("1414", "3W");
 
         // DOUBLE WORD BUFF
         boardScores.put("11", "2W");
         boardScores.put("22", "2W");
         boardScores.put("33", "2W");
         boardScores.put("44", "2W");
-        boardScores.put("113", "2W");
         boardScores.put("212", "2W");
         boardScores.put("311", "2W");
         boardScores.put("410", "2W");
@@ -153,6 +156,10 @@ public class Game {
     public static boolean validateWord(String word) {
         return dict.contains(word.toUpperCase());
     }
+    /*
+    returns string representation of the board
+    @return     Game string object
+    */
     public char[][] getScrabbleBoardClone() {
         char[][] boardClone = new char[15][15];
 
@@ -163,28 +170,12 @@ public class Game {
         }
         return boardClone;
     }
+
     /*
-    returns string representation of the board
-    @return     Game string object
+    Adds the new word to the board
+    @param move
     */
-    public String toString() {
-        StringBuilder board = new StringBuilder();
-        board.append("   0  1  2  3  4  5  6  7  8  9  10 11 12 13 14\n");
-        for (int i = 0; i < 15; i++) {
-            if (i >= 10) {
-                board.append(i).append(" ");
-            } else {
-                board.append(" ").append(i).append(" ");
-            }
-            for (int j = 0; j < 15; j++) {
-                board.append(this.scrabbleBoard[i][j]).append("  ");
-            }
-            board.append("\n\n");
-        }
-        return board.toString();
-    }
-    //will not place a word on the board unless it is valid
-    public void placeWordOnBoard(move move) {
+    void placeWordOnBoard(move move) {
         //assumption that the word is valid
 
         if (move.isValid) {
