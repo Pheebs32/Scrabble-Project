@@ -60,12 +60,12 @@ public class scores {
     @param player   player in question
     @param score    new score
     */
-    private void updatePlayerScore(player player, int score) {
+    public void updatePlayerScore(player player, int score) {
         if (score < 0)      { throw new IllegalArgumentException("negative score!"); }
         if (player == null) { throw new IllegalArgumentException("player obj null"); }
 
-        int newScore = this.scoreMap.get(player) + score;
-        this.scoreMap.put(player, newScore);
+        int newScore = scoreMap.get(player) + score;
+        scoreMap.put(player, newScore);
     }
     /*
     get players score
@@ -74,8 +74,8 @@ public class scores {
     */
     public static int getPlayerScore(player player) {
         if (player == null) { throw new IllegalArgumentException("player obj null"); }
-        if (scores.scoreMap.containsKey(player)) {
-            return scores.scoreMap.get(player);
+        if (scoreMap.containsKey(player)) {
+            return scoreMap.get(player);
         } else return -1;
     }
 
@@ -85,7 +85,7 @@ public class scores {
     @param move     move being played
     @return         move score
     */
-    public int computeWordScore(move move) {
+    public static int computeWordScore(move move) {
         ArrayList<String> list = move.secondaryWords;
         String word = move.word;
         int dir = move.direction;
@@ -118,13 +118,13 @@ public class scores {
             }
         }
         totalScore += tempWordScore * wordMultiplier;
-        secondaryScore = this.computeSecondaryWordScore(move);
+        secondaryScore = scores.computeSecondaryWordScore(move);
 
         return totalScore + secondaryScore;
     }
 
     //the score of the move assuming the move is valid
-    private int computeSecondaryWordScore(move move) {
+    private static int computeSecondaryWordScore(move move) {
         ArrayList<String> list = move.secondaryWords;
         int tempScore = 0;
         for (String str : list) {

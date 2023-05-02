@@ -12,12 +12,12 @@ import java.util.ArrayList;
 class move {
     public static final int RIGHT = 1;
     public static final int DOWN = 2;
-    static int totalNumberOfMoves = 0;
+    static int totalNumberOfMoves;
     String word;
     int direction;
     int startRow;
     int startCol;
-    boolean isValid;
+    static boolean isValid;
     ArrayList<String> secondaryWords;
 
     /*
@@ -27,14 +27,14 @@ class move {
     @param startRow -   starting row coordinate of the move
     @param startCol -   starting col coordinate of the move
     */
-    public move(String word, int direction, int startRow, int startCol) {
+    public move(String word, int direction, int startCol, int startRow) {
         // TODO: add invalid argument checks
         this.word = word;
         this.direction = direction;
-        this.startRow = startRow;
         this.startCol = startCol;
+        this.startRow = startRow;
         this.isValid = false;
-        move.totalNumberOfMoves++;
+        move.totalNumberOfMoves = 0;
     }
 
     //variables are not declared private
@@ -72,7 +72,8 @@ class move {
     public int computeWordScore(move move) {
         return -1;
     }
-    public boolean registerMove() {
-        return false;
+    public static void registerCorrectMove(move move) {
+        if (move.isValid) { totalNumberOfMoves++;                                   }
+        else              { System.out.println("Invalid move, unable to register"); }
     }
 }

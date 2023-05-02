@@ -1,9 +1,9 @@
 public class player {
     private String name;
     private int id;
-    private int currentScore;
+    int currentScore;
     String [] letters;
-    private player[] players;
+    player[] players;
 
     public player(String name, int id, String[] letters) {
         this.name = name;

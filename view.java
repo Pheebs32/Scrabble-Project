@@ -1,5 +1,6 @@
 //This class handles all the view drawings. All methods are static.
 //Other classes send an object and this class adds the UI before displaying.
+import java.util.Arrays;
 public class view {
     public static void showTray(player player) {
         System.out.println(player.getName() +", your turn: ");
@@ -80,8 +81,8 @@ public class view {
         if (boardCopy[3][14] == ' ') { boardCopy[3][14] = '~'; }
         if (boardCopy[11][14] == ' ') { boardCopy[11][14] = '~'; }
 
-        //boardStr.append("-------------------------------------------------------------\n\n");
-        boardStr.append("     0   1   2   3   4   5   6   7   8   9   10  11  12  13  14\n\n");
+        boardStr.append("/////-------------------SCRABBLE BOARD--------------------/////\n");
+        boardStr.append(" =   0   1   2   3   4   5   6   7   8   9   10  11  12  13  14\n\n");
         for (int i = 0; i < 15; i++) {
             if (i >= 10) { boardStr.append(i + "   ");      }
             else         { boardStr.append(" " + i + " ");  }
@@ -102,15 +103,22 @@ public class view {
     /*
     prints out player information :
     PLAYER NAME : boo
+    PLAYER SCORE : --
     LETTER TRAY : [A, B, C, D, E, F, G]
-    @param player   player object
+    @param player1   player object
+    @param player2   player object
     */
-    public static void printPlayerInformation(player player) {
-        System.out.println("///// PLAYER INFO /////");
-        System.out.println("NAME : " + player.getName());
-        System.out.println("SCORE : " + scores.getPlayerScore(player));
-        System.out.println("TILES : " + player.getLetters().toString());
-        System.out.println("------------------");
+    public static void printPlayerInformation(player player1, player player2, scores scores) {
+        System.out.println("/////-PLAYER-1 INFO-/////");
+        System.out.println("NAME : " + player1.getName());
+        System.out.println("SCORE : " + scores.getPlayerScore(player1));
+        System.out.println("TILES : " + Arrays.toString(player1.getLetters()));
+        System.out.println("/////---------------/////\n");
+        System.out.println("/////-PLAYER-2 INFO-/////");
+        System.out.println("NAME : " + player2.getName());
+        System.out.println("SCORE : " + scores.getPlayerScore(player2));
+        System.out.println("TILES : " + Arrays.toString(player2.getLetters()));
+        System.out.println("/////---------------/////\n");
     }
 
 //    public static void printScores(player player1, player player2, scores scores) {

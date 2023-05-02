@@ -13,7 +13,6 @@ import java.util.HashMap;
 
 //Game class for Scrabble - Handles the game logic
 public class Game {
-    // TODO: change board representation - adding W, w, L, l ...
     char[][] scrabbleBoard;
     private static HashSet<String> dict;
     private static HashMap<String, String> boardScores;
@@ -23,8 +22,7 @@ public class Game {
         this.initGame();
         this.initBoardScores();
 
-        try {
-            this.initDict();
+        try { this.initDict();
         } catch (FileNotFoundException e) {
             System.err.println("FileNotFoundExpectation: " + e);
         }
@@ -38,7 +36,6 @@ public class Game {
                 this.scrabbleBoard[i][j] = ' ';
             }
         }
-        this.scrabbleBoard[7][7] = 'X';
     }
 
     //Initializes the dictionary - text file from 'https://github.com/redbo/scrabble/blob/master/dictionary.txt'
@@ -175,7 +172,7 @@ public class Game {
     Adds the new word to the board
     @param move
     */
-    void placeWordOnBoard(move move) {
+    public void placeWordOnBoard(move move) {
         //assumption that the word is valid
 
         if (move.isValid) {

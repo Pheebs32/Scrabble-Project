@@ -9,8 +9,9 @@ public class application {
         Game board = new Game();
         gameplay gameplay = new gameplay();
         //scores scores = new scores();
-        view view = new view();
+        //view view = new view();
+
         gameplay.createNewPlayers();
-        gameplay.gameOn(1);
+        gameplay.gameOn(1, board);
     }
 }
